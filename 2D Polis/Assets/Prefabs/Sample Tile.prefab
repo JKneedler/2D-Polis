@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8045618799851973553}
   - component: {fileID: 2782526848826769281}
-  - component: {fileID: 7135246607183216398}
+  - component: {fileID: 791519910508676876}
   m_Layer: 0
   m_Name: Sample Tile
   m_TagString: Untagged
@@ -69,19 +69,19 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: ce37ee79a8800be4c84098c0282d9f32, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7135246607183216398
+--- !u!114 &791519910508676876
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8007777406528723350}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27b4acae52a35e24c8f495e77b26f651, type: 3}
+  m_Script: {fileID: 11500000, guid: f2731fd00e7b05f4faf80795f43f8065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildableTileTypes: 01000000

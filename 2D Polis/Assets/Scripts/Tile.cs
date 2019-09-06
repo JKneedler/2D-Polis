@@ -6,5 +6,5 @@ using UnityEngine;
         public GameObject tileObj;
         public int tileNum;
         public Vector2 loc;
-        public int tileType;
+        public TileTypes tileType;
     }

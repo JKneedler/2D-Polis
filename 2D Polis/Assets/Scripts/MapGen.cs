@@ -38,13 +38,13 @@ public class MapGen : MonoBehaviour
         Vector2 rockOffset = new Vector2(Random.Range(0, 1000), Random.Range(0, 1000));
         for(int y = 0; y < mapLength; y++) {
             for(int x = 0; x < mapWidth; x++) {
-                int tileType = 0;
+                TileTypes tileType = TileTypes.Grass;
                 float treeVal = Mathf.PerlinNoise(x/treePerlinScale + treeOffset.x, y/treePerlinScale + treeOffset.y);
                 if(treeVal < treePerlinCutoff) {
-                    tileType = 1;
+                    tileType = TileTypes.Trees;
                 } else {
                     float rockVal = Mathf.PerlinNoise(x/rockPerlinScale + rockOffset.x, y/rockPerlinScale + rockOffset.y);
-                    if(rockVal > rockPerlinCutoff) tileType = 2;
+                    if(rockVal > rockPerlinCutoff) tileType = TileTypes.Rocks;
                 }
                 tiles[y * mapWidth + x] = new Tile{ tileNum = 0, loc = new Vector2(x, y), tileType = tileType };
             }
@@ -56,7 +56,11 @@ public class MapGen : MonoBehaviour
             for(int x = 0; x < mapWidth; x++) {
                 var tile = tiles[y * mapWidth + x];
                 if(tile.tileNum != -1) {
-                    tiles[y * mapWidth + x].tileNum = GetSurroundingTiles(x, y);
+                    int newTileNum = GetSurroundingTiles(x, y);
+                    tiles[y * mapWidth + x].tileNum = newTileNum;
+                    if(newTileNum != 15) {
+                        tiles[y * mapWidth + x].tileType = TileTypes.Coast;
+                    }
                 }
             }
         }
@@ -72,6 +76,7 @@ public class MapGen : MonoBehaviour
 
                 if(!keep) {
                     tile.tileNum = -1;
+                    tile.tileType = TileTypes.Water;
                 }
             }
             DetermineTileNum();
@@ -89,7 +94,11 @@ public class MapGen : MonoBehaviour
                 if(tile.tileNum != -1) {
                     float xLoc = startingX + (x * xInterval);
                     float yLoc = startingY + (x * yInterval);
-                    var tileObj = (GameObject)Instantiate(tilePrefabs[tile.tileType], new Vector3(xLoc, yLoc, 0), gameObject.transform.rotation);
+
+                    //Temp code
+                    int prefabIndex = tile.tileType == TileTypes.Coast ? 0 : (int)tile.tileType - 2;
+
+                    var tileObj = (GameObject)Instantiate(tilePrefabs[prefabIndex], new Vector3(xLoc, yLoc, 0), gameObject.transform.rotation);
                     tileObj.transform.parent = transform;
                     tile.tileObj = tileObj;
                     tileObj.GetComponent<TileMono>().data = tile;

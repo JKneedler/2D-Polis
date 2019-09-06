@@ -10,20 +10,20 @@ public class MasterManager : MonoBehaviour
     public GameObject tileMarkerPrefab;
     GameObject tileMarkerInstance;
     Vector2 mousePos;
-    BuildModes curMode;
+    GameModes curMode;
     //Temp variable
     public GameObject dock;
 
     void Start()
     {
-        curMode = BuildModes.Run;
+        curMode = GameModes.Run;
     }
 
     void Update()
     {
-        if(curMode == BuildModes.Run) {
+        if(curMode == GameModes.Run) {
 
-        } else if(curMode == BuildModes.Build) {
+        } else if(curMode == GameModes.Build) {
             services.buildService.RunBuildMode();
         }
 
@@ -34,6 +34,10 @@ public class MasterManager : MonoBehaviour
                 tileMarkerInstance = (GameObject)Instantiate(tileMarkerPrefab, hoverTile.transform.position, hoverTile.transform.rotation);
             } else {
                 tileMarkerInstance.transform.position = hoverTile.transform.position;
+            }
+
+            if(Input.GetMouseButtonDown(0)) {
+                Debug.Log(hoverTile.GetComponent<TileMono>().data.tileType.ToString());
             }
         } else {
            if(tileMarkerInstance) {
@@ -62,8 +66,10 @@ public class MasterManager : MonoBehaviour
 
     //Temp Method
     public void TestBuildDock() {
-        GameObject obj = (GameObject)Instantiate(dock, new Vector3(0, 0, 0), dock.transform.rotation);
-        services.buildService.StartBuildMode(obj);
-        curMode = BuildModes.Build;
+        if(curMode != GameModes.Build) {
+            GameObject obj = (GameObject)Instantiate(dock, new Vector3(0, 0, 0), dock.transform.rotation);
+            services.buildService.StartBuildMode(obj);
+            curMode = GameModes.Build;
+        }
     }
 }
