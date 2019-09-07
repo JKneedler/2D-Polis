@@ -10,7 +10,7 @@ public class MasterManager : MonoBehaviour
     public GameObject tileMarkerPrefab;
     GameObject tileMarkerInstance;
     Vector2 mousePos;
-    GameModes curMode;
+    public GameModes curMode;
     //Temp variable
     public GameObject dock;
 
@@ -67,9 +67,9 @@ public class MasterManager : MonoBehaviour
     //Temp Method
     public void TestBuildDock() {
         if(curMode != GameModes.Build) {
-            GameObject obj = (GameObject)Instantiate(dock, new Vector3(0, 0, 0), dock.transform.rotation);
-            services.buildService.StartBuildMode(obj);
-            curMode = GameModes.Build;
+            services.buildService.StartBuildMode(dock);
+        } else {
+            services.buildService.ExitBuildMode();
         }
     }
 }

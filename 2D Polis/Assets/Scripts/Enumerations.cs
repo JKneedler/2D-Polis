@@ -8,5 +8,6 @@ public enum TileTypes {
     Coast,
     Grass,
     Trees,
-    Rocks
+    Rocks,
+    Building
 };

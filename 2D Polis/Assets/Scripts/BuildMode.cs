@@ -7,28 +7,46 @@ public class BuildMode : MonoBehaviour
 {
     [HideInInspector]
     public Services services;
+    public GameObject buildTileMarkerPrefab;
+    GameObject buildMarker;
+    SpriteRenderer buildMarkerSprite;
     BuildableTile curBuildTile;
-    GameObject curBuildTileObj;
-    SpriteRenderer curBuildTileSprite;
 
     public void StartBuildMode(GameObject newBuildTile) {
-        curBuildTileObj = newBuildTile;
+        services.masterService.curMode = GameModes.Build;
+        buildMarker = (GameObject)Instantiate(buildTileMarkerPrefab, new Vector3(0, 0, 0), buildTileMarkerPrefab.transform.rotation);
         curBuildTile = newBuildTile.GetComponent<BuildableTile>();
-        curBuildTileSprite = curBuildTileObj.GetComponent<SpriteRenderer>();
+        buildMarkerSprite = buildMarker.GetComponent<SpriteRenderer>();
     }
 
     public void RunBuildMode() {
         TileMono hoverTile = services.masterService.hoverTile;
         if(hoverTile) {
-            curBuildTileObj.SetActive(true);
-            curBuildTileObj.transform.position = hoverTile.transform.position;
+            buildMarker.SetActive(true);
+            buildMarker.transform.position = hoverTile.transform.position;
             if(curBuildTile.buildableTileTypes.Contains(hoverTile.data.tileType)) {
-                curBuildTileSprite.color = new Color32(117, 255, 135, 255);
+                buildMarkerSprite.color = new Color32(117, 255, 135, 255);
             } else {
-                curBuildTileSprite.color = new Color32(255, 118, 124, 255);
+                buildMarkerSprite.color = new Color32(255, 118, 124, 255);
             }
         } else {
-            curBuildTileObj.SetActive(false);
+            buildMarker.SetActive(false);
         }
+
+        if(Input.GetMouseButtonDown(0)) {
+            if(services.masterService.hoverTile) {
+                Place(services.masterService.hoverTile);
+            }
+        }
+    }
+
+    public void Place(TileMono replaceTile) {
+        Debug.Log("Place " + replaceTile.data.loc);
+        services.mapService.ReplaceTile(replaceTile.data.loc, curBuildTile);
+    }
+
+    public void ExitBuildMode() {
+        services.masterService.curMode = GameModes.Run;
+        Destroy(buildMarker);
     }
 }

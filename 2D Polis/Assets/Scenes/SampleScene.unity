@@ -306,6 +306,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   services: {fileID: 0}
+  buildTileMarkerPrefab: {fileID: 8007777406528723350, guid: 50c7df2c58adbb1478a241e425d7cfad,
+    type: 3}
 --- !u!114 &410274689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,7 +339,7 @@ MonoBehaviour:
   hoverTile: {fileID: 0}
   tileMarkerPrefab: {fileID: 2054184352630135634, guid: 967c883191894f149be656dd7e7d6f63,
     type: 3}
-  dock: {fileID: 8007777406528723350, guid: 50c7df2c58adbb1478a241e425d7cfad, type: 3}
+  dock: {fileID: 7790953888215817660, guid: 1f90dee75081e0f4885e62084d983d48, type: 3}
 --- !u!4 &410274691
 Transform:
   m_ObjectHideFlags: 0

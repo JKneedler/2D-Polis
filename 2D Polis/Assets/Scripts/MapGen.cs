@@ -9,7 +9,7 @@ public class MapGen : MonoBehaviour
     [HideInInspector]
     public Services services;
     public GameObject[] tilePrefabs;
-    Tile[] tiles;
+    Tile[] map;
     public int islandDegeneration;
     public float treePerlinScale;
     public float treePerlinCutoff;
@@ -33,7 +33,7 @@ public class MapGen : MonoBehaviour
     }
 
     public void GenerateMap() {
-        tiles = new Tile[mapWidth * mapLength];
+        map = new Tile[mapWidth * mapLength];
         Vector2 treeOffset = new Vector2(Random.Range(0, 1000), Random.Range(0, 1000));
         Vector2 rockOffset = new Vector2(Random.Range(0, 1000), Random.Range(0, 1000));
         for(int y = 0; y < mapLength; y++) {
@@ -46,7 +46,7 @@ public class MapGen : MonoBehaviour
                     float rockVal = Mathf.PerlinNoise(x/rockPerlinScale + rockOffset.x, y/rockPerlinScale + rockOffset.y);
                     if(rockVal > rockPerlinCutoff) tileType = TileTypes.Rocks;
                 }
-                tiles[y * mapWidth + x] = new Tile{ tileNum = 0, loc = new Vector2(x, y), tileType = tileType };
+                map[y * mapWidth + x] = new Tile{ tileNum = 0, loc = new Vector2(x, y), tileType = tileType };
             }
         }
     }
@@ -54,12 +54,12 @@ public class MapGen : MonoBehaviour
     public void DetermineTileNum() {
         for(int y = 0; y < mapLength; y++) {
             for(int x = 0; x < mapWidth; x++) {
-                var tile = tiles[y * mapWidth + x];
+                var tile = map[y * mapWidth + x];
                 if(tile.tileNum != -1) {
                     int newTileNum = GetSurroundingTiles(x, y);
-                    tiles[y * mapWidth + x].tileNum = newTileNum;
+                    map[y * mapWidth + x].tileNum = newTileNum;
                     if(newTileNum != 15) {
-                        tiles[y * mapWidth + x].tileType = TileTypes.Coast;
+                        map[y * mapWidth + x].tileType = TileTypes.Coast;
                     }
                 }
             }
@@ -68,7 +68,7 @@ public class MapGen : MonoBehaviour
 
     public void FormIsland() {
         for(int i = 0; i < islandDegeneration; i++) {
-            var coastTiles = tiles.Where(t => t.tileNum != 15);
+            var coastTiles = map.Where(t => t.tileNum != 15);
             foreach(var tile in coastTiles) {
                 float xDist = Mathf.Abs(tile.loc.x/mapWidth - 0.5f);
                 float yDist = Mathf.Abs(tile.loc.y/mapLength - 0.5f);
@@ -90,7 +90,7 @@ public class MapGen : MonoBehaviour
             for(int x = 0; x < mapWidth; x++) {
                //x - 0.5 intervals
                //z - (9/32) intervals
-               var tile = tiles[y * mapWidth + x];
+               var tile = map[y * mapWidth + x];
                 if(tile.tileNum != -1) {
                     float xLoc = startingX + (x * xInterval);
                     float yLoc = startingY + (x * yInterval);
@@ -113,30 +113,44 @@ public class MapGen : MonoBehaviour
         if(y == mapLength - 1) {
             north = 0;
         } else {
-            north = tiles[(y+1) * mapWidth + x].tileNum != -1 ? 1 : 0;
+            north = map[(y+1) * mapWidth + x].tileNum != -1 ? 1 : 0;
         }
         //East
         int east = 1;
         if(x == mapWidth - 1) {
             east = 0;
         } else {
-            east = tiles[y * mapWidth + (x+1)].tileNum != -1 ? 1 : 0;
+            east = map[y * mapWidth + (x+1)].tileNum != -1 ? 1 : 0;
         }
         //South
         int south = 1;
         if(y == 0) {
             south = 0;
         } else {
-            south = tiles[(y-1) * mapWidth + x].tileNum != -1 ? 1 : 0;
+            south = map[(y-1) * mapWidth + x].tileNum != -1 ? 1 : 0;
         }
         //West
         int west = 1;
         if(x == 0) {
             west = 0;
         } else {
-            west = tiles[y * mapWidth + (x-1)].tileNum != -1 ? 1 : 0;
+            west = map[y * mapWidth + (x-1)].tileNum != -1 ? 1 : 0;
         }
 
         return (north * 1) + (east * 2) + (south * 4) + (west * 8);
+   }
+
+   public void ReplaceTile(Vector2 tileToReplaceLoc, TileMono replacement) {
+       Tile og = map[(int)tileToReplaceLoc.y * mapWidth + (int)tileToReplaceLoc.x];
+       GameObject newTile = (GameObject)Instantiate(replacement.gameObject, og.tileObj.transform.position, og.tileObj.transform.rotation);
+       TileMono newTileMono = newTile.GetComponent<TileMono>();
+       newTileMono.data = new Tile {
+           tileObj = newTile,
+           tileNum = og.tileNum,
+           loc = og.loc,
+           tileType = TileTypes.Building
+       };
+       map[(int)tileToReplaceLoc.y * mapWidth + (int)tileToReplaceLoc.x] = newTileMono.data;
+       Destroy(og.tileObj);
    }
 }
