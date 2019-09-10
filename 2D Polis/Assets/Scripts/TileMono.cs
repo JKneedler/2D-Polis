@@ -4,4 +4,12 @@ using UnityEngine;
 
     public class TileMono : MonoBehaviour {
         public Tile data;
+
+        public virtual void ReachedTargetLocation() {
+
+        }
+
+        public virtual void DoneAtTargetLocation() {
+            
+        }
     }

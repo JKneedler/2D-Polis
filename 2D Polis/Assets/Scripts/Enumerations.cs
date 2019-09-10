@@ -11,3 +11,14 @@ public enum TileTypes {
     Rocks,
     Building
 };
+
+public enum Jobs {
+    Citizen,
+    Explorer,
+    Farmer,
+    Herder,
+    Fisher,
+    Adventurer,
+    Miner,
+    Priest
+};

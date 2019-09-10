@@ -7,6 +7,7 @@ public class Services : MonoBehaviour
     public MasterManager masterService;
     public BuildMode buildService;
     public MapGen mapService;
+    public VillageManager villageService;
 
     public void Start() {
         masterService.services = this;
