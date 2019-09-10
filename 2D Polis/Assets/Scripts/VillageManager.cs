@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class VillageManager : MonoBehaviour
 {
+    public int startingVillagers;
+    public GameObject villagerPrefab;
+    public List<GameObject> villagers;
+    public Services services;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        for(int i = 0 ; i < startingVillagers; i++) {
+            GameObject vill = (GameObject)Instantiate(villagerPrefab, new Vector3(0, 0, 0), villagerPrefab.transform.rotation);
+            vill.GetComponent<Villager>().services = services;
+            villagers.Add(vill);
+        }
     }
 
     // Update is called once per frame

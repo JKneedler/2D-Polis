@@ -286,6 +286,7 @@ GameObject:
   - component: {fileID: 410274690}
   - component: {fileID: 410274689}
   - component: {fileID: 410274688}
+  - component: {fileID: 410274692}
   m_Layer: 0
   m_Name: Master Manager
   m_TagString: Untagged
@@ -323,6 +324,7 @@ MonoBehaviour:
   masterService: {fileID: 410274690}
   buildService: {fileID: 410274688}
   mapService: {fileID: 11225980}
+  villageService: {fileID: 410274692}
 --- !u!114 &410274690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +341,7 @@ MonoBehaviour:
   hoverTile: {fileID: 0}
   tileMarkerPrefab: {fileID: 2054184352630135634, guid: 967c883191894f149be656dd7e7d6f63,
     type: 3}
+  curMode: 0
   dock: {fileID: 7790953888215817660, guid: 1f90dee75081e0f4885e62084d983d48, type: 3}
 --- !u!4 &410274691
 Transform:
@@ -354,6 +357,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &410274692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410274687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b80e5a9e6130f4abaf898db0c419d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingVillagers: 1
+  villagerPrefab: {fileID: 9059134196999493774, guid: e73698efaf2ce42bb8cb3a9144d109ef,
+    type: 3}
+  villagers: []
+  services: {fileID: 410274689}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

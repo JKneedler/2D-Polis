@@ -41,7 +41,6 @@ public class BuildMode : MonoBehaviour
     }
 
     public void Place(TileMono replaceTile) {
-        Debug.Log("Place " + replaceTile.data.loc);
         services.mapService.ReplaceTile(replaceTile.data.loc, curBuildTile);
     }
 

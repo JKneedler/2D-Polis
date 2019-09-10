@@ -16,7 +16,7 @@ public class Villager : MonoBehaviour
 
     void Start()
     {
-
+        GetNewTask();
     }
 
 
